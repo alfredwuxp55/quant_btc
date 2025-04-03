@@ -14,8 +14,11 @@ data = yf.download(ticker, start=start_date, end=end_date)
 # Retrieve the 10-Year Breakeven Inflation Rate from FRED
 breakeven = web.DataReader('T10YIE', 'fred', start_date, end_date)
 
-# Create a single figure with 2 subplots (stacked vertically) sharing the x-axis
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
+# Download historical DS Dollar Index (using "DX-Y.NYB") data using yfinance
+Dx_data = yf.download("DX-Y.NYB", start=start_date, end=end_date)
+
+# Create a single figure with 3 subplots (stacked vertically) sharing the x-axis
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
 
 # Top subplot: Nasdaq-100 Futures Close Price
 ax1.plot(data.index, data['Close'], label='Close Price')
@@ -31,6 +34,15 @@ ax2.set_ylabel('Inflation Rate (%)')
 ax2.set_title('10-Year Breakeven Inflation Rate (2020 - Today)')
 ax2.legend()
 ax2.grid(True)
+
+
+# Top subplot: Nasdaq-100 Futures Close Price
+ax3.plot(Dx_data.index, Dx_data['Close'], label='Close Price')
+ax3.set_xlabel('Date')
+ax3.set_ylabel('DS Dollar Index Close Price')
+ax3.set_title('DS Dollar Index (2020 - Today)')
+ax3.legend()
+ax3.grid(True)
 
 # Adjust layout for a clean look
 plt.tight_layout()
