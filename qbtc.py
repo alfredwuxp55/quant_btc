@@ -1,23 +1,37 @@
 import yfinance as yf
 import datetime
 import matplotlib.pyplot as plt
+import pandas_datareader.data as web
 
-# Define the ticker symbol for Nasdaq-100 Futures
+# Define the ticker symbol for Nasdaq-100 Futures and the date range
 ticker = "NQ=F"
-
-# Set the start and end dates
 start_date = "2020-01-01"
 end_date = datetime.datetime.today().strftime("%Y-%m-%d")
 
-# Download historical data using yfinance
+# Download historical Nasdaq-100 Futures data using yfinance
 data = yf.download(ticker, start=start_date, end=end_date)
 
-# Plot the close price vs. time
-plt.figure(figsize=(12, 6))
-plt.plot(data.index, data['Close'], label='Close Price')
-plt.xlabel('Date')
-plt.ylabel('Close Price')
-plt.title('Nasdaq-100 Futures Close Price (2020 - Today)')
-plt.legend()
-plt.grid(True)
+# Retrieve the 10-Year Breakeven Inflation Rate from FRED
+breakeven = web.DataReader('T10YIE', 'fred', start_date, end_date)
+
+# Create a single figure with 2 subplots (stacked vertically) sharing the x-axis
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
+
+# Top subplot: Nasdaq-100 Futures Close Price
+ax1.plot(data.index, data['Close'], label='Close Price')
+ax1.set_ylabel('Close Price')
+ax1.set_title('Nasdaq-100 Futures Close Price (2020 - Today)')
+ax1.legend()
+ax1.grid(True)
+
+# Bottom subplot: 10-Year Breakeven Inflation Rate
+ax2.plot(breakeven.index, breakeven['T10YIE'], label='10-Year Breakeven Inflation Rate', color='blue')
+ax2.set_xlabel('Date')
+ax2.set_ylabel('Inflation Rate (%)')
+ax2.set_title('10-Year Breakeven Inflation Rate (2020 - Today)')
+ax2.legend()
+ax2.grid(True)
+
+# Adjust layout for a clean look
+plt.tight_layout()
 plt.show()
