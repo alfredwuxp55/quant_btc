@@ -17,32 +17,40 @@ breakeven = web.DataReader('T10YIE', 'fred', start_date, end_date)
 # Download historical DS Dollar Index (using "DX-Y.NYB") data using yfinance
 Dx_data = yf.download("DX-Y.NYB", start=start_date, end=end_date)
 
-# Create a single figure with 3 subplots (stacked vertically) sharing the x-axis
-fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+# Download historical Bitcoin daily data using yfinance
+btc_data = yf.download('BTC-USD', start=start_date, end=end_date)
 
-# Top subplot: Nasdaq-100 Futures Close Price
+# Create a single figure with 4 subplots (stacked vertically) sharing the x-axis
+fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, figsize=(12, 12), sharex=True)
+
+# First subplot: Nasdaq-100 Futures Close Price
 ax1.plot(data.index, data['Close'], label='Close Price')
 ax1.set_ylabel('Close Price')
 ax1.set_title('Nasdaq-100 Futures Close Price (2020 - Today)')
 ax1.legend()
 ax1.grid(True)
 
-# Bottom subplot: 10-Year Breakeven Inflation Rate
+# Second subplot: 10-Year Breakeven Inflation Rate
 ax2.plot(breakeven.index, breakeven['T10YIE'], label='10-Year Breakeven Inflation Rate', color='blue')
-ax2.set_xlabel('Date')
 ax2.set_ylabel('Inflation Rate (%)')
 ax2.set_title('10-Year Breakeven Inflation Rate (2020 - Today)')
 ax2.legend()
 ax2.grid(True)
 
-
-# Top subplot: Nasdaq-100 Futures Close Price
+# Third subplot: DS Dollar Index Data
 ax3.plot(Dx_data.index, Dx_data['Close'], label='Close Price')
-ax3.set_xlabel('Date')
 ax3.set_ylabel('DS Dollar Index Close Price')
 ax3.set_title('DS Dollar Index (2020 - Today)')
 ax3.legend()
 ax3.grid(True)
+
+# Fourth subplot: Bitcoin Daily Close Price
+ax4.plot(btc_data.index, btc_data['Close'], label='Bitcoin Close Price', color='orange')
+ax4.set_xlabel('Date')
+ax4.set_ylabel('Bitcoin Price (USD)')
+ax4.set_title('Bitcoin Daily Close Price (2020 - Today)')
+ax4.legend()
+ax4.grid(True)
 
 # Adjust layout for a clean look
 plt.tight_layout()
