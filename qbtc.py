@@ -8,7 +8,7 @@ from sklearn.linear_model import LinearRegression
 
 # Define the ticker symbol for Nasdaq-100 Futures and the date range
 ticker = "NQ=F"
-start_date = "2020-01-01"
+start_date = "2015-01-01"
 end_date = datetime.datetime.today().strftime("%Y-%m-%d")
 
 # Download historical Nasdaq-100 Futures data using yfinance
@@ -29,21 +29,21 @@ fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, figsize=(12, 12), sharex=True)
 # First subplot: Nasdaq-100 Futures Close Price
 ax1.plot(Nas_data.index, Nas_data['Close'], label='Nasdaq-100 Futures')
 ax1.set_ylabel('Nasdaq-100 Futures')
-ax1.set_title('Nasdaq-100 Futures Close Price (2020 - Today)')
+ax1.set_title('Nasdaq-100 Futures Close Price (2015 - Today)')
 ax1.legend()
 ax1.grid(True)
 
 # Second subplot: 10-Year Breakeven Inflation Rate
 ax2.plot(breakeven.index, breakeven['T10YIE'], label='10-Year Breakeven Inflation Rate', color='blue')
 ax2.set_ylabel('Inflation Rate (%)')
-ax2.set_title('10-Year Breakeven Inflation Rate (2020 - Today)')
+ax2.set_title('10-Year Breakeven Inflation Rate (2015 - Today)')
 ax2.legend()
 ax2.grid(True)
 
 # Third subplot: DS Dollar Index Data
 ax3.plot(usd_data.index, usd_data['Close'], label='DS Dollar Index')
 ax3.set_ylabel('DS Dollar Index Close Price')
-ax3.set_title('DS Dollar Index (2020 - Today)')
+ax3.set_title('DS Dollar Index (2015 - Today)')
 ax3.legend()
 ax3.grid(True)
 
@@ -51,7 +51,7 @@ ax3.grid(True)
 ax4.plot(btc_data.index, btc_data['Close'], label='Bitcoin Close Price', color='orange')
 ax4.set_xlabel('Date')
 ax4.set_ylabel('Bitcoin Price (USD)')
-ax4.set_title('Bitcoin Daily Close Price (2020 - Today)')
+ax4.set_title('Bitcoin Daily Close Price (2015 - Today)')
 ax4.legend()
 ax4.grid(True)
 
@@ -126,7 +126,7 @@ ax1.set_title('Tech factor Coefficient Over Time')
 ax1.legend()
 ax1.grid(True)
 
-ax2.plot(coef_df['Date'], coef_df['Coef_usd_norm'], label='Outside Payment and Gold (Inverse Better)', color='orange')
+ax2.plot(coef_df['Date'], coef_df['Coef_usd_norm'], label='Outside Payment Factor(Inverse Better)', color='orange')
 ax2.set_ylabel('Outside Payment & Gold')
 ax2.set_title('Outside Payment and Gold Coefficient Over Time')
 ax2.legend()
@@ -145,8 +145,8 @@ plt.show()
 # Figure 2: All coefficients in one figure
 plt.figure(figsize=(12, 6))
 plt.plot(coef_df['Date'], coef_df['Coef_Nas_norm'], label='Tech factor')
-plt.plot(coef_df['Date'], coef_df['Coef_usd_norm'], label='Outside Payment and Gold (Inverse Better)', color='orange')
-plt.plot(coef_df['Date'], coef_df['Coef_breakeven_norm'], label='Digital Gold', color='green')
+plt.plot(coef_df['Date'], coef_df['Coef_usd_norm'], label='Outside Payment Factor (Inverse Better)', color='orange')
+plt.plot(coef_df['Date'], coef_df['Coef_breakeven_norm'], label='Digital Gold Factor', color='green')
 plt.xlabel('Date')
 plt.ylabel('Regression Coefficient')
 plt.title('Sliding Window Regression Coefficients (Window Size = 5 Days)')
